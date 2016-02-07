@@ -1,0 +1,23 @@
+{% extends 'contacts/base.html' %}
+
+{% block content %}
+    <section id="contact_list">
+        {% for contact in contacts %}
+            <div class="contact highlight_card" data-codename="{{ contact.code_name }}" data-powers="{{ contact.powers }}" data-fullname="{{ contact.full_name }}">
+                <div class="header">{{ contact.code_name }}</div>
+                <div class="detail">{{ contact.first_name }} {{ contact.last_name }}</div>
+            </div>
+        {% endfor %}
+    </section>
+    <aside id="contact_display" class="hidden" data-active="">
+        <span class="title"></span>
+        <ul>
+            <li class="full_name"></li>
+            <li class="powers"></li>
+        </ul>
+    </aside>
+{% endblock content %}
+
+{% block extra_body %}
+    <script src="{{ STATIC_URL }}js/contacts.js" type="text/javascript"></script>
+{% endblock %}
