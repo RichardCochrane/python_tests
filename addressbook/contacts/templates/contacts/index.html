@@ -1,20 +1,53 @@
 {% extends 'contacts/base.html' %}
 
+{% load avatar_tags %}
+{% load contacts_tags %}
+
+{% block extra_header %}
+    <div class="header_functions">
+        <span><a href="{% url 'contacts:create_contact_details' %}">Add Contact</a></span>
+    </div>
+{% endblock %}
+
 {% block content %}
     <section id="contact_list">
         {% for contact in contacts %}
-            <div class="contact highlight_card" data-codename="{{ contact.code_name }}" data-powers="{{ contact.powers }}" data-fullname="{{ contact.full_name }}">
+            <div class="contact highlight_card" data-code_name="{{ contact.code_name }}" data-powers="{{ contact.powers|join:',' }}" data-full_name="{{ contact.full_name }}" data-email="{{ contact.email }}" data-telephone_number="{{ contact.telephone_number }}" data-update_url="{% url 'contacts:update_contact_details' contact.id %}" data-delete_url="{% url 'contacts:delete_contact' contact.id %}" data-grade="{{ contact.grade|grader_reveal }}">
                 <div class="header">{{ contact.code_name }}</div>
+                {% avatar contact 50 %}
                 <div class="detail">{{ contact.first_name }} {{ contact.last_name }}</div>
+                <div class="big_avatar hidden">
+                    {% avatar contact 200 %}
+                </div>
             </div>
         {% endfor %}
     </section>
     <aside id="contact_display" class="hidden" data-active="">
-        <span class="title"></span>
+        <div class="title"></div>
+        <div class="big_avatar"></div>
         <ul>
-            <li class="full_name"></li>
-            <li class="powers"></li>
+            <li class="full_name">
+                <span class="heading">Full Name</span>
+                <span class="detail"></span>
+            </li>
+            <li class="powers">
+                <span class="heading">Super Powers</span>
+                <span class="detail"></span>
+            </li>
         </ul>
+        <div id="power_grade">
+            <div id="power_grade_overlay">&nbsp;</div>
+            <div id="power_grade_base">&nbsp;</div>
+        </div>
+        <br><br>
+        <button><a id="contact_update_link" href="">Update</a></button>
+        <button><a id="contact_delete_link" href="">Remove</a></button>
+        <br><br><br>
+
+        <div class="primary_actions">
+            <button class="telephone_number">Call</button>
+            <button class="email">Email</button>
+        </div>
     </aside>
 {% endblock content %}
 

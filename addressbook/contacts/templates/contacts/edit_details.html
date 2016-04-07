@@ -1,0 +1,70 @@
+{% extends 'contacts/base.html' %}
+
+{% block content %}
+    <h1>Contact Details</h1>
+
+    <div id="breadcrumbs">
+        <ul>
+            <li><a href="{% url 'index' %}">All Contacts</a></li>
+            <li>&gt; {{ action|title }} Contact</li>
+        </ul>
+    </div>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <ul>
+            <li>
+                <label>Name</label>
+                <span>{{ contact_form.first_name }}&nbsp;&nbsp;{{ contact_form.last_name }}</span>
+
+                {% if contact_form.first_name.errors or contact_form.last_name.errors %}
+                    {{ contact_form.first_name.errors }}
+                    {{ contact_form.last_name.errors }}
+                {% endif %}
+            </li>
+
+            <li>
+                <label>Nick Name</label>
+                <span>{{ contact_form.nick_name }}</span>
+
+                {% if contact_form.nick_name.errors %}
+                    {{ contact_form.nick_name.errors }}
+                {% endif %}
+            </li>
+
+            <li>
+                <label>Code Name</label>
+                <span>{{ contact_form.code_name }}</span>
+
+                {% if contact_form.code_name.errors %}
+                    {{ contact_form.code_name.errors }}
+                {% endif %}
+            </li>
+
+            <li>
+                <label>Telephone Number</label>
+                <span>{{ contact_form.telephone_number }}</span>
+
+                {% if contact_form.telephone_number.errors %}
+                    {{ contact_form.telephone_number.errors }}
+                {% endif %}
+            </li>
+
+            <li>
+                <label>Email</label>
+                <span>{{ contact_form.email }}</span>
+
+                {% if contact_form.email.errors %}
+                    {{ contact_form.email.errors }}
+                {% endif %}
+            </li>
+        </ul>
+
+        {{ contact_form.non_field_errors }}
+        <input type="submit" value="Next" class="primary_btn" />
+    </form>
+{% endblock content %}
+
+{% block extra_body %}
+    <script src="{{ STATIC_URL }}js/contacts.js" type="text/javascript"></script>
+{% endblock %}

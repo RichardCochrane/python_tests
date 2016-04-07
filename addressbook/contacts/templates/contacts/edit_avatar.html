@@ -1,0 +1,46 @@
+{% extends 'contacts/base.html' %}
+
+{% load avatar_tags %}
+
+{% block content %}
+    <h1>Contact Avatar</h1>
+
+    <div id="breadcrumbs">
+        <ul>
+            <li><a href="{% url 'index' %}">All Contacts</a></li>
+            <li>&gt; Avatar</li>
+        </ul>
+    </div>
+
+    <h2>{{ contact.full_name }}</h2>
+    <span>Current Avatar:</span>
+    {% if contact.avatar %}
+        <br><br>
+        {% avatar contact 200 %}
+    {% else %}
+        <span>None</span>
+    {% endif %}
+    <br><br>
+
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <ul>
+            <li>
+                <label>Upload new avatar</label>
+                <span>{{ avatar_form.avatar }}</span>
+
+                {% if avatar_form.avatar.errors %}
+                    {{ avatar_form.avatar.errors }}
+                {% endif %}
+            </li>
+        </ul>
+
+        <input type="submit" value="Next" class="primary_btn" />
+        <a class="skip_link" href="{% url 'contacts:update_contact_powers' contact.id %}">Skip</a>
+        <a class="back_link" href="{% url 'contacts:update_contact_details' contact.id %}">Back</a>
+    </form>
+{% endblock content %}
+
+{% block extra_body %}
+    <script src="{{ STATIC_URL }}js/contacts.js" type="text/javascript"></script>
+{% endblock %}

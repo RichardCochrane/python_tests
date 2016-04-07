@@ -2,7 +2,19 @@
 
 from __future__ import unicode_literals
 
+import datetime
+
 from django.db import models
+
+from contacts.lib.contact_grader import Grader
+
+
+def contact_directory_path(instance, filename):
+    """Return the appropriate folder to store an avatar in."""
+    # file will be uploaded to MEDIA_ROOT/avatars/contact_<id>/<filename>
+    file_extension = filename.split('.')[-1]
+    return 'avatars/contact_{0}/{1}.{2}'.format(
+        instance.id, datetime.datetime.today().strftime('%Y%m%d_%H%M'), file_extension)
 
 
 class Contact(models.Model):
@@ -13,7 +25,7 @@ class Contact(models.Model):
     nick_name = models.CharField(max_length=40, null=True, blank=True)
     code_name = models.CharField(max_length=40)
     telephone_number = models.CharField(max_length=20, null=True, blank=True)
-    email = models.EmailField(max_length=20, null=True, blank=True)
+    email = models.EmailField(max_length=80, null=True, blank=True)
 
     def __str__(self):
         """Return superhero name."""
@@ -27,15 +39,37 @@ class Contact(models.Model):
         else:
             return '{} {}'.format(self.first_name, self.last_name).strip()
 
+    @property
+    def powers(self):
+        """Return comma-concatenated list of associated powers."""
+        return [p.super_power.power.title() for p in self.super_powers.all()]
+
+    @property
+    def avatar(self):
+        """Return the primary avatar for the contact (if possible)."""
+        if self.avatars.filter(primary=True):
+            return self.avatars.filter(primary=True)[0]
+
+        return None
+
+    @property
+    def grade(self):
+        """Return the power grading of the contact."""
+        return Grader(self).grade
+
 
 class SuperPower(models.Model):
     """Model class that stores possible super-powers."""
 
     power = models.CharField(max_length=100)
 
+    def __str__(self):
+        """Return name of power."""
+        return self.power
+
 
 class ContactSuperPowers(models.Model):
     """Model class that links contacts to specific super-powers."""
 
-    contact = models.ForeignKey(Contact)
+    contact = models.ForeignKey(Contact, related_name='super_powers')
     super_power = models.ForeignKey(SuperPower)

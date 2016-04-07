@@ -25,12 +25,12 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
 
     # Third Party Apps
     'django_extensions',
 
     # My Apps
+    'avatar',
     'contacts',
 ]
 
@@ -115,7 +115,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'addressbook', 'site_media', 'compiled_static')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'addressbook', 'site_media', 'static')
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'addressbook', 'site_media', 'static')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'addressbook', 'site_media', 'media')
+STATICFILES_DIRS = []
+AVATAR_GRAVATAR_BACKUP = False
+AVATAR_STORAGE_DIR = 'avatars/'
+AVATAR_DEFAULT_URL = 'images/default.jpg'
+AVATAR_AUTO_GENERATE_SIZES = (50, 200)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)

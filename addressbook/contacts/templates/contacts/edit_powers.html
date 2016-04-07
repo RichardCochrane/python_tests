@@ -1,0 +1,31 @@
+{% extends 'contacts/base.html' %}
+
+{% block content %}
+    <h1>Contact Powers</h1>
+
+    <div id="breadcrumbs">
+        <ul>
+            <li><a href="">All Contacts</a></li>
+            <li>&gt; Powers</li>
+        </ul>
+    </div>
+
+    <h2>{{ contact.full_name }}</h2>
+    <span>Known Powers:</span>
+    <ul class="powers">
+        {% for power in contact.powers %}
+            <li>{{ power }}</li>
+        {% empty %}
+            <li>None</li>
+        {% endfor %}
+    </ul>
+    <a href="#" class="action_update_link">Update Powers from Superhero Bureau</a>
+
+    <br><br>
+    <a class="primary_btn" href="{% url 'index' %}">Finish</a>
+    <a class="back_link" href="{% url 'contacts:update_contact_avatar' contact.id %}">Back</a>
+{% endblock content %}
+
+{% block extra_body %}
+    <script src="{{ STATIC_URL }}js/contacts.js" type="text/javascript"></script>
+{% endblock %}
