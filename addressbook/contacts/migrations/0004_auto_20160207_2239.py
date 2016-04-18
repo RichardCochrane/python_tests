@@ -13,15 +13,16 @@ from django.db import migrations, models
 def add_avatars(apps, schema_editor):
     Contact = apps.get_model('contacts', 'Contact')
 
-    png_avatars = ['mystique', 'rogue']
+    png_avatars = ['Mystique', 'Rogue']
     for contact in Contact.objects.all():
         avatar_source_path = os.path.join(
             settings.BASE_DIR, 'addressbook', 'site_media', 'static', 'images', 'source')
-        code_name = contact.code_name.lower()
-        avatar_filename = '{}.{}'.format(code_name, 'png' if code_name in png_avatars else 'jpg')
+        file_extension = 'png' if contact.code_name in png_avatars else 'jpg'
+        avatar_filename = '{}.{}'.format(contact.code_name.lower(), file_extension)
 
         contact_avatar = File(open('{}/{}'.format(avatar_source_path, avatar_filename), 'r'))
-        contact.avatar.save(avatar_filename, contact_avatar, save=True)
+        new_filename = 'contact_{}.{}'.format(contact.id, file_extension)
+        contact.avatar.save(new_filename, contact_avatar, save=True)
 
 
 class Migration(migrations.Migration):
@@ -34,7 +35,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='contact',
             name='avatar',
-            field=models.ImageField(blank=True, null=True, upload_to=contacts.models.contact_directory_path),
+            field=models.ImageField(
+                blank=True, null=True, upload_to=contacts.models.contact_directory_path),
         ),
         migrations.AlterField(
             model_name='contact',
