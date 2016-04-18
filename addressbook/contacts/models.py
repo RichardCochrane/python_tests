@@ -2,8 +2,6 @@
 
 from __future__ import unicode_literals
 
-import datetime
-
 from django.db import models
 
 from contacts.lib.contact_grader import Grader
@@ -13,8 +11,7 @@ def contact_directory_path(instance, filename):
     """Return the appropriate folder to store an avatar in."""
     # file will be uploaded to MEDIA_ROOT/avatars/contact_<id>/<filename>
     file_extension = filename.split('.')[-1]
-    return 'avatars/contact_{0}/{1}.{2}'.format(
-        instance.id, datetime.datetime.today().strftime('%Y%m%d_%H%M'), file_extension)
+    return 'avatars/contact_{0}/{1}.{2}'.format(instance.id, instance.id, file_extension)
 
 
 class Contact(models.Model):

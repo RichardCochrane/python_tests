@@ -32,7 +32,8 @@ def avatar_file_path(instance=None, filename=None, size=None, ext=None):
         tmp = hashlib.md5(get_code_name(instance.contact)).hexdigest()
         tmppath.extend([tmp[0], tmp[1], get_code_name(instance.contact)])
     else:
-        tmppath.append(get_code_name(instance.contact))
+        tmppath.append('contact_{}'.format(instance.id))
+
     if not filename:
         # Filename already stored in database
         filename = instance.avatar.name
