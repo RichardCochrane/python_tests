@@ -118,6 +118,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'addressbook', 'site_media', 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'addressbook', 'site_media', 'media')
+AVATAR_ROOT = os.path.join(BASE_DIR, 'addressbook', 'site_media', 'media', 'avatars')
+
 STATICFILES_DIRS = []
 AVATAR_GRAVATAR_BACKUP = False
 AVATAR_STORAGE_DIR = 'avatars/'

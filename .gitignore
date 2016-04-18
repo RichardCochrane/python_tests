@@ -1,3 +1,4 @@
 *.py[ocd]
 
 venv/
+addressbook/addressbook/site_media/media/avatars/**/*

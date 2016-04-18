@@ -1,0 +1,6 @@
+database:
+  override:
+    - python addressbook/manage.py migrate
+test:
+  override:
+    - python addressbook/manage.py test contacts
