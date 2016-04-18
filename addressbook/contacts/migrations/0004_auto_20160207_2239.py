@@ -15,8 +15,7 @@ def add_avatars(apps, schema_editor):
 
     png_avatars = ['Mystique', 'Rogue']
     for contact in Contact.objects.all():
-        avatar_source_path = os.path.join(
-            settings.BASE_DIR, 'addressbook', 'site_media', 'static', 'images', 'source')
+        avatar_source_path = os.path.join(settings.STATIC_ROOT, 'images', 'source')
         file_extension = 'png' if contact.code_name in png_avatars else 'jpg'
         avatar_filename = '{}.{}'.format(contact.code_name.lower(), file_extension)
 
