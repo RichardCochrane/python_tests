@@ -18,8 +18,9 @@ def add_avatars(apps, schema_editor):
         avatar_source_path = os.path.join(settings.STATIC_ROOT, 'images', 'source')
         file_extension = 'png' if contact.code_name in png_avatars else 'jpg'
         avatar_filename = '{}.{}'.format(contact.code_name.lower(), file_extension)
+        avatar_filepath = os.path.join(avatar_source_path, avatar_filename)
 
-        contact_avatar = File(open('{}/{}'.format(avatar_source_path, avatar_filename), 'r'))
+        contact_avatar = File(open(avatar_filepath, 'r'))
         new_filename = 'contact_{}.{}'.format(contact.id, file_extension)
         contact.avatar.save(new_filename, contact_avatar, save=True)
 
