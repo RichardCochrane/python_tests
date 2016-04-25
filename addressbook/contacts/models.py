@@ -25,32 +25,12 @@ class Contact(models.Model):
     email = models.EmailField(max_length=80, null=True, blank=True)
 
     def __str__(self):
-        """
-        Return superhero name.
-
-        >>> contact = Contact(code_name='DevMan')
-        >>> print contact
-        u'DevMan'
-
-        >>> contact = Contact(first_name='Richard', last_name='Cochrane')
-        >>> str(contact)
-        u'(no code name) Richard Cochrane'
-        """
+        """Return superhero name."""
         return self.code_name
 
     @property
     def full_name(self):
-        """
-        Return combined first and last name to give full name.
-
-        >>> contact = Contact(first_name='Richard', last_name='Cochrane')
-        >>> contact.full_name
-        u'Richard Cochrane'
-
-        >>> contact.last_name = ''
-        >>> contact.full_name
-        u'Richard'
-        """
+        """Return combined first and last name to give full name."""
         if self.nick_name:
             return '{} "{}" {}'.format(self.first_name, self.nick_name, self.last_name).strip()
         else:
@@ -71,13 +51,7 @@ class Contact(models.Model):
 
     @property
     def grade(self):
-        """
-        Return the power grading of the contact.
-
-        >>> contact = Contact()
-        >>> contact.grade
-        0
-        """
+        """Return the power grading of the contact."""
         return Grader(self).grade()
 
 
